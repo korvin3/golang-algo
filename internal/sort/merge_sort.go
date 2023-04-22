@@ -1,46 +1,48 @@
 package sort
 
 import (
-	"reflect"
-	"testing"
-	"golang-cli-app/sort/constants"
+	"golang.org/x/exp/constraints"
 )
 
-func MergeSort[K comparable](inputArray *[]K, order constants.Order) {
+func MergeSort[K constraints.Ordered](inputArray []K, order Order)[]K {
 	if len(inputArray) <= 1 {
-		return 0
+		return inputArray
 	}
 
-	left := MergeSort(make(inputArray[:len(inputArray) / 2]))
-	right := MergeSort(make(inputArray[len(inputArray) / 2:]))
+	left := inputArray[:len(inputArray) / 2]
+	left = MergeSort(left, order)
+	right := inputArray[len(inputArray) / 2:]
+	right = MergeSort(right, order)
 	leftIdx := 0
 	rightIdx := 0
-	merged := &inputArray
+	resultArray := make([]K, len(inputArray))
 
 	for leftIdx < len(left) && rightIdx < len(right) {
 		if _compare(left[leftIdx], right[rightIdx], order) {
-			merged[leftIdx + rightIdx] = left[leftIdx]
-			leftIdx = leftIdx + 1
+			resultArray[leftIdx + rightIdx] = left[leftIdx]
+			leftIdx += 1
 		} else {
-			merged[leftIdx + rightIdx] = right[rightIdx]
-			rightIdx = rightIdx + 1
+			resultArray[leftIdx + rightIdx] = right[rightIdx]
+			rightIdx += 1
 		}
 	}
 
 	for leftIdx < len(left) {
-		merged[leftIdx + rightIdx] = left[leftIdx]
-		leftIdx = leftIdx + 1
+		resultArray[leftIdx + rightIdx] = left[leftIdx]
+		leftIdx += 1
 	}
 
 	for rightIdx < len(right) {
-		merged[leftIdx + rightIdx] = right[rightIdx]
-		rightIdx = rightIdx + 1
+		resultArray[leftIdx + rightIdx] = right[rightIdx]
+		rightIdx += 1
 	}
+	
+	return resultArray
 }
 
-func _compare[K comparable](left K, right K, order Order) bool {
-	if order == constants.Order.Asc {
-		return left <= right
+func _compare[K constraints.Ordered](left K, right K, order Order) bool {
+	if order == Asc {
+		return left < right
 	}
 
 	return right <= left
