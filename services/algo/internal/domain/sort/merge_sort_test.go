@@ -3,12 +3,13 @@ package sort
 import (
 	"reflect"
 	"testing"
+	"github.com/korvin3/golang-algo/services/algo/internal/domain/sort/constants"
 )
 
 func TestMergeSort(t *testing.T) {
 	for _, tc := range _testCases() {
 		t.Run(tc.name, func(t *testing.T) {
-			result := MergeSort(tc.input, Asc)
+			result := MergeSort(tc.input, constants.Asc)
 			if !reflect.DeepEqual(result, tc.expected) {
 				t.Errorf("Expected %v but got %v", tc.expected, result)
 			}

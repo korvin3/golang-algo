@@ -2,9 +2,10 @@ package sort
 
 import (
 	"golang.org/x/exp/constraints"
+	"github.com/korvin3/golang-algo/services/algo/internal/domain/sort/constants"
 )
 
-func MergeSort[K constraints.Ordered](inputArray []K, order Order)[]K {
+func MergeSort[K constraints.Ordered](inputArray []K, order constants.Order)[]K {
 	if len(inputArray) <= 1 {
 		return inputArray
 	}
@@ -40,8 +41,8 @@ func MergeSort[K constraints.Ordered](inputArray []K, order Order)[]K {
 	return resultArray
 }
 
-func _compare[K constraints.Ordered](left K, right K, order Order) bool {
-	if order == Asc {
+func _compare[K constraints.Ordered](left K, right K, order constants.Order) bool {
+	if order == constants.Asc {
 		return left < right
 	}
 

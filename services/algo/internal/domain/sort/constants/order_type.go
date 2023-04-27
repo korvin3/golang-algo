@@ -1,4 +1,4 @@
-package sort
+package constants
 
 type Order int64
 
